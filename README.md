@@ -1,18 +1,29 @@
-# Rabbit-Celery-FastAPI Automation Workflow
+# Rabbit-Celery-FastAPI Automation Workflow (PostgreSQL-Free)
 
-A comprehensive CI/CD pipeline system designed for solopreneur development workflows, integrating RabbitMQ, Celery, and FastAPI for scalable task automation.
+A lightweight, containerized automation system designed for solopreneur development workflows, integrating RabbitMQ, Celery, and FastAPI for scalable task automation without database dependencies.
 
 ## Project Overview
 
-This project implements a prompt-driven development methodology for building robust automation workflows. It combines message queuing (RabbitMQ), distributed task processing (Celery), and modern web APIs (FastAPI) to create a complete automation platform.
+This project implements a prompt-driven development methodology for building robust automation workflows. It combines message queuing (RabbitMQ), distributed task processing (Celery), and modern web APIs (FastAPI) to create a complete automation platform optimized for stateless operations.
 
 ## Technology Stack
 
 - **FastAPI**: Modern, fast web framework for building APIs
 - **Celery**: Distributed task queue system
 - **RabbitMQ**: Message broker for reliable communication
+- **Redis**: Result backend for task status and caching
 - **Docker**: Containerization for consistent development environments
 - **Git**: Version control with structured commit workflow
+
+## Perfect For
+
+- **File processing automation** (CSV, JSON, XML parsing)
+- **API integration workflows** (data sync, webhooks)
+- **Report generation and delivery**
+- **Scheduled maintenance tasks**
+- **Microservice architectures** (where database is external)
+- **Stateless automation workflows**
+- **Data transformation pipelines**
 
 ## Development Workflow
 
@@ -26,13 +37,16 @@ This project follows a structured prompt-driven development approach:
 ## Project Status
 
 - [x] Initial project setup and documentation
-- [ ] Core development environment (Docker, docker-compose)
-- [ ] FastAPI application structure
-- [ ] Celery worker configuration
-- [ ] RabbitMQ integration
-- [ ] CI/CD pipeline implementation
-- [ ] Testing framework setup
-- [ ] Production deployment configuration
+- [x] Core development environment (Docker, docker-compose)
+- [x] FastAPI application structure
+- [x] Celery worker configuration
+- [x] RabbitMQ integration
+- [x] Redis result backend
+- [x] Task management API endpoints
+- [x] Monitoring with Flower
+- [x] Production-ready containerization
+- [x] Comprehensive error handling
+- [ ] Custom task implementations (project-specific)
 
 ## Quick Start
 
@@ -49,9 +63,9 @@ docker-compose up -d
 
 # Access the services:
 # - FastAPI application: http://localhost:8000
-# - RabbitMQ Management UI: http://localhost:15673
+# - FastAPI docs: http://localhost:8000/docs
+# - RabbitMQ Management UI: http://localhost:15673 (admin/devpassword123)
 # - Celery Flower monitoring: http://localhost:5555
-# - PostgreSQL: localhost:5432
 # - Redis: localhost:6379
 
 # Run tests

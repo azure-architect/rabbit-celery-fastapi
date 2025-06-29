@@ -20,14 +20,6 @@ class Settings(BaseSettings):
     FASTAPI_PORT: int = 8000
     API_V1_STR: str = "/api/v1"
     
-    # Database
-    DATABASE_URL: str = "postgresql://postgres:password@localhost:5432/rabbit_celery_db"
-    DATABASE_HOST: str = "localhost"
-    DATABASE_PORT: int = 5432
-    DATABASE_NAME: str = "rabbit_celery_db"
-    DATABASE_USER: str = "postgres"
-    DATABASE_PASSWORD: str = "password"
-    
     # Redis
     REDIS_URL: str = "redis://localhost:6379/0"
     REDIS_HOST: str = "localhost"

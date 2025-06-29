@@ -72,3 +72,6 @@ celerybeat.pid
 
 # RabbitMQ
 rabbitmq/
+
+# Database backups and temp files
+*.sql.backup
