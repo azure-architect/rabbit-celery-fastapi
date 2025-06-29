@@ -47,6 +47,13 @@ cp .env.example .env
 # Start the development environment
 docker-compose up -d
 
+# Access the services:
+# - FastAPI application: http://localhost:8000
+# - RabbitMQ Management UI: http://localhost:15673
+# - Celery Flower monitoring: http://localhost:5555
+# - PostgreSQL: localhost:5432
+# - Redis: localhost:6379
+
 # Run tests
 pytest
 ```

@@ -115,7 +115,7 @@ services:
       RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD}
     ports:
       - "5673:5672"  # Changed host port to avoid conflict with Docker Desktop
-      - "15672:15672"  # Management UI
+      - "15673:15672"  # Management UI - changed to avoid Docker Desktop conflict
     volumes:
       - rabbitmq_data:/var/lib/rabbitmq
     networks:
