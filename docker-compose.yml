@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   # FastAPI Application
   api:
@@ -18,68 +16,68 @@ services:
     depends_on:
       - db
       - redis
-      # - rabbitmq  # Commented out for testing
+      - rabbitmq
     networks:
       - app-network
     restart: unless-stopped
     command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
 
-  # Celery Worker - COMMENTED OUT FOR TESTING
-  # worker:
-  #   build:
-  #     context: .
-  #     dockerfile: Dockerfile
-  #   volumes:
-  #     - .:/app
-  #     - /app/__pycache__
-  #   env_file:
-  #     - .env
-  #   depends_on:
-  #     - db
-  #     - redis
-  #     - rabbitmq
-  #   networks:
-  #     - app-network
-  #   restart: unless-stopped
-  #   command: celery -A app.celery_app worker --loglevel=info
+  # Celery Worker
+  worker:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/app
+      - /app/__pycache__
+    env_file:
+      - .env
+    depends_on:
+      - db
+      - redis
+      - rabbitmq
+    networks:
+      - app-network
+    restart: unless-stopped
+    command: celery -A app.celery_app worker --loglevel=info
 
-  # Celery Beat Scheduler - COMMENTED OUT FOR TESTING
-  # beat:
-  #   build:
-  #     context: .
-  #     dockerfile: Dockerfile
-  #   volumes:
-  #     - .:/app
-  #     - /app/__pycache__
-  #   env_file:
-  #     - .env
-  #   depends_on:
-  #     - db
-  #     - redis
-  #     - rabbitmq
-  #   networks:
-  #     - app-network
-  #   restart: unless-stopped
-  #   command: celery -A app.celery_app beat --loglevel=info
+  # Celery Beat Scheduler
+  beat:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/app
+      - /app/__pycache__
+    env_file:
+      - .env
+    depends_on:
+      - db
+      - redis
+      - rabbitmq
+    networks:
+      - app-network
+    restart: unless-stopped
+    command: celery -A app.celery_app beat --loglevel=info
 
-  # Celery Flower (Monitoring) - COMMENTED OUT FOR TESTING
-  # flower:
-  #   build:
-  #     context: .
-  #     dockerfile: Dockerfile
-  #   ports:
-  #     - "5555:5555"
-  #   volumes:
-  #     - .:/app
-  #   env_file:
-  #     - .env
-  #   depends_on:
-  #     - redis
-  #     - rabbitmq
-  #   networks:
-  #     - app-network
-  #   restart: unless-stopped
-  #   command: celery -A app.celery_app flower --port=5555
+  # Celery Flower (Monitoring)
+  flower:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "5555:5555"
+    volumes:
+      - .:/app
+    env_file:
+      - .env
+    depends_on:
+      - redis
+      - rabbitmq
+    networks:
+      - app-network
+    restart: unless-stopped
+    command: celery -A app.celery_app flower --port=5555
 
   # PostgreSQL Database
   db:
@@ -109,20 +107,20 @@ services:
     restart: unless-stopped
     command: redis-server --appendonly yes
 
-  # RabbitMQ (Message Broker) - COMMENTED OUT FOR TESTING
-  # rabbitmq:
-  #   image: rabbitmq:3-management-alpine
-  #   environment:
-  #     RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER}
-  #     RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD}
-  #   ports:
-  #     - "5673:5672"  # Changed host port to avoid conflict with Docker Desktop
-  #     - "15673:15672"  # Management UI - changed to avoid Docker Desktop conflict
-  #   volumes:
-  #     - rabbitmq_data:/var/lib/rabbitmq
-  #   networks:
-  #     - app-network
-  #   restart: unless-stopped
+  # RabbitMQ (Message Broker)
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD}
+    ports:
+      - "5673:5672"  # Changed host port to avoid conflict with Docker Desktop
+      - "15673:15672"  # Management UI - changed to avoid Docker Desktop conflict
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    networks:
+      - app-network
+    restart: unless-stopped
 
   # Nginx (Reverse Proxy - Optional for production)
   nginx:
